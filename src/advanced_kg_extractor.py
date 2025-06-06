@@ -16,14 +16,14 @@ from collections import defaultdict
 import random
 
 class AdvancedKnowledgeGraphExtractor:
-    def __init__(self, neo4j_uri: str = "bolt://localhost:7687", 
+    def __init__(self, neo4j_uri: str = "neo4j_url", 
                  neo4j_user: str = "neo4j", 
-                 neo4j_password: str = "password123",
+                 neo4j_password: str = "password",
                  model_name: str = "mistral",
                  prompt_type: str = "basic",
                  num_iterations: int = 3,
                  voting_threshold: float = 0.7,
-                 together_api_key: str = "fe816936b359e9d975a42f152ceaf60328cb95f05b01a77adab28bcdd650945c",
+                 #together_api_key: str = "",
                  dataset_type: str = None):
         """Initialize the advanced knowledge graph extractor.
         
@@ -35,7 +35,6 @@ class AdvancedKnowledgeGraphExtractor:
             prompt_type: Type of prompt to use
             num_iterations: Number of extraction iterations for self-consistency
             voting_threshold: Minimum agreement threshold for triple acceptance
-            together_api_key: API key for Together.ai (for qwen, gemma, deepseek)
             dataset_type: Dataset type for KG naming (e.g., '1m')
         """
         # Initialize Neo4j connection
