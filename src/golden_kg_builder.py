@@ -20,9 +20,9 @@ import re
 import csv
 
 # Neo4j connection details - Update these with your Neo4j credentials
-NEO4J_URI = "bolt://localhost:7687"  # Change this if your Neo4j is not running locally
+NEO4J_URI = ""  # Change this if your Neo4j is not running locally
 NEO4J_USER = "neo4j"                 # Your Neo4j username
-NEO4J_PASSWORD = "password123"     # Your Neo4j password
+NEO4J_PASSWORD = "password"     # Your Neo4j password
 
 def load_movielens_small(dataset_dir, max_samples=0):
     movies_path = Path(dataset_dir) / "movies.csv"
