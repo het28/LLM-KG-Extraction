@@ -1,0 +1,30 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# Packaging
+knowledge_graph.egg-info/
+
+# Large CSVs and logs
+advance_*.csv
+llm_raw_triples_log.csv
+mistral_*.csv
+golden_kg_triples*.csv
+KG_evaluation/*.csv
+*.log
+
+# Neo4j database files and logs
+data/neo4j/
+data/logs/
+
+# MovieLens raw data (optionally, if too large)
+data/ml-1m/ratings.dat
+data/ml-1m/users.dat
+data/ml-1m/movies.dat
+
+# Remove scripts not to be uploaded
+scripts/download_movielens.py
+scripts/pdf_analyzer.py
+
+# Misc
+*.DS_Store 
