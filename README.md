@@ -56,7 +56,3 @@ This project uses the [MovieLens 1M dataset](https://grouplens.org/datasets/movi
   ```bash
   python scripts/advanced_kg_evaluation.py --kg_name "granite_basic_kg" --dataset data/ml-1m
   ```
-
-
-# LLM-KG-Extraction
-# LLM-KG-Extraction
