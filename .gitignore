@@ -1,3 +1,10 @@
+# Ignore all dataset folders
+# (MovieLens and other large data)
+data/movielens/
+data/ml-1m/
+data/ml-latest-small/
+data/ml-latest/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -16,11 +23,6 @@ KG_evaluation/*.csv
 # Neo4j database files and logs
 data/neo4j/
 data/logs/
-
-# MovieLens raw data (optionally, if too large)
-data/ml-1m/ratings.dat
-data/ml-1m/users.dat
-data/ml-1m/movies.dat
 
 # Remove scripts not to be uploaded
 scripts/download_movielens.py

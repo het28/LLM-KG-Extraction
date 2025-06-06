@@ -20,6 +20,18 @@ This repository contains a robust, modular pipeline for extracting and evaluatin
 - `KG_evaluation/` — Example evaluation outputs
 - `docker-compose.yml` — For Neo4j and Ollama setup
 
+## Dataset
+
+This project uses the [MovieLens 1M dataset](https://grouplens.org/datasets/movielens/1m/) and optionally the [MovieLens Latest](https://grouplens.org/datasets/movielens/latest/) datasets.
+
+**Please download the dataset(s) manually from the official [GroupLens website](https://grouplens.org/datasets/movielens/), and place them in the `data/` directory as follows:**
+
+- `data/ml-1m/`
+- `data/ml-latest/`
+- `data/ml-latest-small/`
+
+> **Note:** The datasets are not included in this repository due to their size and licensing.
+
 ## Setup
 
 1. **Clone the repo**
@@ -45,12 +57,5 @@ This repository contains a robust, modular pipeline for extracting and evaluatin
   python scripts/advanced_kg_evaluation.py --kg_name "granite_basic_kg" --dataset data/ml-1m
   ```
 
-## Citing
 
-If you use this codebase, please cite:
-- Ji et al., "A Survey on Knowledge Graphs: Representation, Acquisition, and Applications", 2022.
-- Paulheim, "Knowledge Graph Refinement: A Survey of Approaches and Evaluation Methods", 2017.
-
-## License
-
-MIT License 
+# LLM-KG-Extraction
