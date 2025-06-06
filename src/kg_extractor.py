@@ -19,33 +19,6 @@ from sentence_transformers import SentenceTransformer
 import requests
 import re
 
-class TogetherLLM:
-    def __init__(self, model_name, api_key):
-        self.model_name = model_name
-        self.api_key = api_key
-        self.api_url = "https://api.together.xyz/v1/completions"
-
-    def run(self, text):
-        # Compose the prompt for Together API
-        payload = {
-            "model": self.model_name,
-            "prompt": text,
-            "max_tokens": 1024,
-            "temperature": 0.2,
-            "stop": None
-        }
-        headers = {
-            "Authorization": f"Bearer {self.api_key}",
-            "Content-Type": "application/json"
-        }
-        response = requests.post(self.api_url, json=payload, headers=headers)
-        if response.status_code == 200:
-            result = response.json()
-            return result["choices"][0]["text"]
-        else:
-            print(f"Together API error: {response.status_code} {response.text}")
-            return ""
-
 class KnowledgeGraphExtractor:
     def __init__(self, neo4j_uri: str = "bolt://localhost:7687", 
                  neo4j_user: str = "neo4j", 
@@ -62,7 +35,6 @@ class KnowledgeGraphExtractor:
             neo4j_password: Neo4j password
             model_name: Name of the LLM to use (e.g., 'mistral', 'llama2', 'qwen', 'gemma', 'deepseek')
             prompt_type: Type of prompt to use ('basic', 'complex', 'conversation', or 'structured')
-            together_api_key: API key for Together.ai (leave blank for you to fill)
             dataset_type: Dataset type for KG naming (e.g., '1m')
         """
         # Initialize Neo4j connection
