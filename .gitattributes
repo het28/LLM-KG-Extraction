@@ -1,4 +1,0 @@
-data/movielens/ml-latest/tags.csv filter=lfs diff=lfs merge=lfs -text
-data/movielens/ml-latest/ratings.csv filter=lfs diff=lfs merge=lfs -text
-data/movielens/ml-latest/genome-scores.csv filter=lfs diff=lfs merge=lfs -text
-data/ filter=lfs diff=lfs merge=lfs -text
