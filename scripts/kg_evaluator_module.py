@@ -9,9 +9,9 @@ class KnowledgeGraphEvaluator:
         self.kg_name = kg_name
         self.dataset_dir = dataset_dir
         self.dataset_type = dataset_type
-        self.neo4j_uri = neo4j_uri or 'bolt://localhost:7687'
-        self.neo4j_user = neo4j_user or 'neo4j'
-        self.neo4j_password = neo4j_password or 'password123'
+        self.neo4j_uri = neo4j_uri 
+        self.neo4j_user = neo4j_user 
+        self.neo4j_password = neo4j_password 
         self.driver = GraphDatabase.driver(self.neo4j_uri, auth=(self.neo4j_user, self.neo4j_password))
         self.model_name, self.prompt_type = self._parse_kg_name(kg_name)
 
