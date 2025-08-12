@@ -105,19 +105,55 @@ python scripts/advanced_kg_evaluation.py --strategy str3 --kg_name "qwen_cot_kg"
 - Path overlap (shortest paths), Hallucination rate
 - Fuzzy match statistics (exact, fuzzy, postfix/prefix, underscore/hyphen differences)
 
-### Direct Script Usage
-
-You can also run evaluation scripts directly:
+### Strategy 3 Enhanced: Embedding-based Graph Metrics
+Advanced evaluation using sentence-transformer embeddings for semantic similarity, with flexible ground truth selection.
 
 ```bash
-# Strategy 1: Exact match
-python scripts/str1_evaluate.py --kg_name "mistral_basic_kg"
+# With DBpedia ground truth (default)
+python scripts/str3_enhanced_embedding_evaluate.py --kg_name "mistral_basic_kg"
 
-# Strategy 2: Semantic matching  
-python scripts/str2_evaluate.py --kg_name "llama2_conversation_kg"
+# With Golden KG ground truth
+python scripts/str3_enhanced_embedding_evaluate.py --kg_name "mistral_basic_kg" --ground_truth golden_kg
 
-# Strategy 3: Advanced graph-based
-python scripts/str3_evaluate.py --kg_name "qwen_cot_kg"
+# With custom embedding model and threshold
+python scripts/str3_enhanced_embedding_evaluate.py --kg_name "mistral_basic_kg" --ground_truth golden_kg --embedding_model "all-mpnet-base-v2" --similarity_threshold 0.8
+```
+
+**Features:**
+- Embedding-based semantic matching (replaces fuzzy string matching)
+- Flexible ground truth selection (DBpedia or Golden KG)
+- Configurable embedding models and similarity thresholds
+- Comprehensive graph metrics with semantic understanding
+- Enhanced hallucination detection
+
+### Strategy 5: Enhanced Embedding-based Semantic Similarity
+Uses sentence-transformers with cosine similarity for nuanced semantic matching and similarity scoring.
+
+```bash
+python scripts/str5_embedding_similarity_evaluate.py --kg_name "mistral_basic_kg" --sample_size 1000
+```
+
+**Features:**
+- Cosine similarity (provides similarity scores 0-100% for each triple)
+- Detailed analysis (shows top matches and similarity distributions)
+- Configurable thresholds (adjustable similarity thresholds for quality assessment)
+- Multiple models (support for different sentence-transformer models)
+- Similarity distribution (categorizes triples by similarity ranges)
+
+### Strategy 6: Qwen Embedding-based Evaluation
+Uses Qwen3-Embedding models for comparison with sentence-transformer approaches.
+
+```bash
+python scripts/str6_qwen_embedding_evaluate_fixed.py --kg_name "mistral_basic_kg" --sample_size 500
+```
+
+**Features:**
+- Qwen embeddings (uses Qwen3-Embedding model for embedding generation)
+- Comparison analysis (direct comparison with sentence-transformer results)
+- Model-specific insights (understanding of Qwen's semantic understanding)
+- Performance analysis (evaluation of Qwen embeddings vs. established models)
+
+
 ```
 
 ## Evaluation Output
@@ -134,6 +170,35 @@ Example: `evaluate_mistral_basic_str3.csv`
 Each CSV contains:
 - **Basic metrics:** Precision, recall, F1-score
 - **Graph metrics:** Node/edge overlap, density, component ratio, path overlap
-- **Advanced metrics:** Hallucination rate, fuzzy match statistics
-- **Debug information:** Sample fuzzy matches, normalization examples
+- **Advanced metrics:** Hallucination rate, embedding similarity statistics
+- **Debug information:** Sample matches, normalization examples
+
+## Configuration
+
+### CLI Arguments
+- `--kg_name`: Name of the LLM-generated KG in Neo4j
+- `--ground_truth`: Ground truth source (`dbpedia` or `golden_kg`)
+- `--embedding_model`: Sentence-transformer model (default: `all-MiniLM-L6-v2`)
+- `--similarity_threshold`: Similarity threshold for matching (default: 0.7)
+- `--sample_size`: Number of triples to evaluate (for large KGs)
+
+### Default Models
+- **Embedding Model:** `all-MiniLM-L6-v2`
+- **Judge Model:** `llama2:latest` (for Strategy 4)
+- **Qwen Model:** `Qwen/Qwen3-Embedding-0.6B` (for Strategy 6)
+
+## Key Metrics
+
+### Graph Structure Metrics
+- **Node Overlap:** Intersection of nodes between extracted and reference KGs
+- **Edge Overlap:** Intersection of edges between extracted and reference KGs
+- **Density Ratio:** Comparison of graph connectivity
+- **Component Ratio:** Assessment of graph fragmentation
+- **Path Overlap:** Multi-hop path similarity
+
+### Quality Metrics
+- **Hallucination Rate:** Proportion of unsupported triples
+- **Semantic Similarity:** Embedding-based similarity scores
+- **Match Distribution:** Classification of matches by similarity level
+- **Coverage Percentage:** Proportion of reference knowledge captured
 
