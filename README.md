@@ -13,6 +13,9 @@ This repository contains a robust, modular pipeline for extracting and evaluatin
   - **Strategy 1:** Exact match evaluation against DBpedia ground truth
   - **Strategy 2:** Semantic/soft matching against Golden KG (sentence-BERT + SpaCy NER)
   - **Strategy 3:** Advanced graph-based metrics with fuzzy matching and hallucination detection
+  - **Strategy 4 Enhanced:** Embedding-based Graph Metrics
+  - **Strategy 5:** Enhanced Embedding-based Semantic Similarity
+  - **Strategy 6:** Qwen Embedding-based Evaluation
 - **Smart normalization and mapping:** Relation mapping tables, fuzzy matching, and entity normalization
 - **Comprehensive metrics:** Precision, recall, F1, graph overlap, density, component ratio, path metrics, hallucination rate
 - Dual logging for traceability
@@ -24,6 +27,9 @@ This repository contains a robust, modular pipeline for extracting and evaluatin
   - `str1_evaluate.py` — Exact match evaluation against DBpedia
   - `str2_evaluate.py` — Semantic matching against Golden KG
   - `str3_evaluate.py` — Advanced graph-based metrics with fuzzy matching
+  - `str3_enhanced_embedding_evaluate.py` - Embedding-based Graph Metrics
+  - `str5_embedding_similarity_evaluate.py` - Embedding-based Graph Metrics
+  - `str6_qwen_embedding_evaluate_fixed.py` - Qwen Embedding-based Evaluation
   - `advanced_kg_evaluation.py` — CLI dispatcher for evaluation strategies
   - `kg_evaluator_module.py` — Reusable evaluation module
 - `KG_evaluation/` — Evaluation outputs and results
@@ -105,7 +111,7 @@ python scripts/advanced_kg_evaluation.py --strategy str3 --kg_name "qwen_cot_kg"
 - Path overlap (shortest paths), Hallucination rate
 - Fuzzy match statistics (exact, fuzzy, postfix/prefix, underscore/hyphen differences)
 
-### Strategy 3 Enhanced: Embedding-based Graph Metrics
+### Strategy 4 Enhanced: Embedding-based Graph Metrics
 Advanced evaluation using sentence-transformer embeddings for semantic similarity, with flexible ground truth selection.
 
 ```bash
