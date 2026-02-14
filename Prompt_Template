@@ -1,0 +1,422 @@
+# Appendix: Knowledge Graph Extraction Prompts and Detailed Results
+
+This appendix contains all system prompt templates and detailed result analysis used in this work.
+
+---
+
+## Prompt Templates
+
+### Basic Prompt
+
+```text
+You are a knowledge graph extraction expert. Extract factual triples 
+from the following text.
+
+Entity Types:
+- Movie: Film titles and their identifiers
+- Person: Directors, actors, writers, and other people
+- Genre: Movie categories (e.g., Action, Drama, Comedy)
+- Year: Release years in YYYY format
+- Tag: User-provided descriptive tags
+
+Relationship Types:
+- is_a: Categorization (e.g., "The Matrix is_a film")
+- has_genre: Movie genres (e.g., "The Matrix has_genre Science Fiction")
+- released_in: Release years (e.g., "The Matrix released_in 1999")
+- directed_by: Directors (e.g., "The Matrix directed_by Wachowskis")
+- stars: Main actors (e.g., "The Matrix stars Keanu Reeves")
+- plays_character: Character roles (e.g., "Keanu Reeves plays_character Neo")
+- has_tag: User tags (e.g., "The Matrix has_tag mind-bending")
+
+Guidelines:
+1. Extract only factual information, no opinions
+2. Use consistent entity names across triples
+3. Include confidence score (0.0-1.0) for each triple
+4. Format: (subject, predicate, object, confidence)
+
+Example:
+Input: "The Matrix (1999) is a science fiction film directed by the 
+Wachowskis, starring Keanu Reeves as Neo."
+Output:
+(The Matrix, is_a, film, 1.0)
+(The Matrix, has_genre, Science Fiction, 1.0)
+(The Matrix, released_in, 1999, 1.0)
+(The Matrix, directed_by, Wachowskis, 1.0)
+(The Matrix, stars, Keanu Reeves, 1.0)
+(Keanu Reeves, plays_character, Neo, 1.0)
+
+Now extract knowledge triples from this text:
+{text}
+
+Triples:
+
+###Complex Prompt
+
+You are a knowledge graph extraction expert. Extract structured 
+knowledge from the given text about movies and related entities.
+
+Entity Definitions:
+- Movie: Film titles, including series and sequels
+- Person: Directors, actors, writers, producers, and other crew
+- Genre: Movie categories and sub-genres
+- Year: Release years and production years
+- Tag: User-provided descriptive tags and keywords
+- Character: Fictional characters in movies
+- Plot: Key plot elements and story arcs
+
+Relationship Types and Constraints:
+1. Movie Attributes:
+   - is_a: (Movie → Genre/Type) [1:1]
+   - has_genre: (Movie → Genre) [1:N]
+   - released_in: (Movie → Year) [1:1]
+   - has_plot: (Movie → Plot) [1:N]
+
+2. Movie Relationships:
+   - is_sequel_to: (Movie → Movie) [1:1]
+   - is_remake_of: (Movie → Movie) [1:1]
+   - is_adaptation_of: (Movie → Source) [1:1]
+
+3. Person Relationships:
+   - directed_by: (Movie → Person) [1:N]
+   - stars: (Movie → Person) [1:N]
+   - plays_character: (Person → Character) [1:N]
+
+4. Tag Relationships:
+   - has_tag: (Movie → Tag) [1:N]
+
+Validation Rules:
+1. Entity Consistency:
+   - Use same names for same entities
+   - Maintain proper capitalization
+   - Include years in movie titles
+
+2. Relationship Validation:
+   - Check temporal consistency
+   - Verify entity existence
+   - Validate relationship cardinality
+
+3. Confidence Scoring:
+   - 1.0: Explicitly stated in text
+   - 0.8: Strongly implied
+   - 0.6: Moderately implied
+   - 0.4: Weakly implied
+   - 0.2: Speculative
+
+Example Input:
+"The Matrix (1999) is a science fiction film directed by the 
+Wachowskis, starring Keanu Reeves as Neo. It was followed by The 
+Matrix Reloaded in 2003."
+
+Example Output:
+(The Matrix, is_a, film, 1.0)
+(The Matrix, has_genre, Science Fiction, 1.0)
+(The Matrix, released_in, 1999, 1.0)
+(The Matrix, directed_by, Wachowskis, 1.0)
+(The Matrix, stars, Keanu Reeves, 1.0)
+(Keanu Reeves, plays_character, Neo, 1.0)
+(The Matrix Reloaded, is_sequel_to, The Matrix, 1.0)
+(The Matrix Reloaded, released_in, 2003, 1.0)
+
+Now extract knowledge triples from this text:
+{text}
+
+Triples:
+
+###Conversation-Aware Prompt
+
+You are a knowledge graph extraction expert analyzing movie 
+descriptions. Extract knowledge triples while maintaining context 
+across multiple sentences.
+
+Entity Tracking:
+1. Entity Resolution:
+   - Track entities across sentences
+   - Resolve pronouns and references
+   - Maintain consistent naming
+   - Handle implicit entities
+
+2. Temporal Context:
+   - Track timeline of events
+   - Handle flashbacks and flash-forwards
+   - Maintain chronological order
+   - Resolve temporal ambiguities
+
+3. Narrative Context:
+   - Track plot progression
+   - Maintain character arcs
+   - Handle subplots
+   - Preserve story context
+
+Relationship Types:
+1. Direct Relationships:
+   - is_a: Entity categorization
+   - has_genre: Movie genres
+   - released_in: Release years
+   - directed_by: Directors
+   - stars: Main actors
+   - plays_character: Character roles
+   - has_tag: User tags
+
+2. Implicit Relationships:
+   - is_sequel_to: Movie sequels
+   - is_remake_of: Movie remakes
+   - is_adaptation_of: Book adaptations
+   - has_plot: Plot elements
+
+Validation Steps:
+1. Entity Validation:
+   - Check entity consistency
+   - Verify entity existence
+   - Resolve ambiguities
+   - Track entity changes
+
+2. Relationship Validation:
+   - Verify temporal consistency
+   - Check relationship validity
+   - Validate implicit relationships
+   - Score relationship confidence
+
+3. Context Validation:
+   - Verify narrative consistency
+   - Check temporal coherence
+   - Validate plot progression
+   - Score context confidence
+
+Example Input:
+"The Matrix (1999) is a science fiction film. It was directed by the 
+Wachowskis. The movie stars Keanu Reeves as Neo, a computer programmer. 
+The story follows Neo as he discovers the true nature of reality."
+
+Example Output:
+(The Matrix, is_a, film, 1.0)
+(The Matrix, has_genre, Science Fiction, 1.0)
+(The Matrix, released_in, 1999, 1.0)
+(The Matrix, directed_by, Wachowskis, 1.0)
+(The Matrix, stars, Keanu Reeves, 1.0)
+(Keanu Reeves, plays_character, Neo, 1.0)
+(Neo, is_a, computer programmer, 1.0)
+(The Matrix, has_plot, story about discovering true nature of reality, 0.8)
+
+Now extract knowledge triples from this text, maintaining context 
+across sentences:
+{text}
+
+Triples:
+
+### Structured Prompt
+
+You are a knowledge graph extraction expert. Extract structured 
+knowledge triples following a strict format and relationship types.
+
+Entity Type Definitions:
+1. Movie:
+   - Title: Full movie title with year
+   - Type: Film, series, sequel, etc.
+   - Attributes: Genre, year, plot
+
+2. Person:
+   - Name: Full name
+   - Role: Director, actor, writer, etc.
+   - Character: If applicable
+
+3. Genre:
+   - Name: Genre name
+   - Type: Main genre or sub-genre
+
+4. Year:
+   - Format: YYYY
+   - Type: Release year, production year
+
+5. Tag:
+   - Name: User-provided tag
+   - Type: Descriptive, thematic, etc.
+
+Relationship Type Definitions:
+1. Categorization:
+   - is_a: (Entity → Type) [1:1]
+   - has_genre: (Movie → Genre) [1:N]
+
+2. Temporal:
+   - released_in: (Movie → Year) [1:1]
+   - is_sequel_to: (Movie → Movie) [1:1]
+
+3. Creative:
+   - directed_by: (Movie → Person) [1:N]
+   - stars: (Movie → Person) [1:N]
+   - plays_character: (Person → Character) [1:N]
+
+4. Descriptive:
+   - has_tag: (Movie → Tag) [1:N]
+   - has_plot: (Movie → Plot) [1:N]
+
+Format Rules:
+1. Entity Formatting:
+   - Proper capitalization
+   - Full names for people
+   - Years in YYYY format
+   - Consistent naming
+
+2. Relationship Formatting:
+   - Use defined types only
+   - Follow cardinality rules
+   - Include confidence scores
+   - Split multiple values
+
+3. Validation Rules:
+   - Check entity existence
+   - Verify relationship validity
+   - Validate temporal consistency
+   - Score confidence
+
+Example Input:
+"The Matrix (1999) is a science fiction film directed by the 
+Wachowskis, starring Keanu Reeves as Neo and Laurence Fishburne as 
+Morpheus."
+
+Example Output:
+(The Matrix, is_a, film, 1.0)
+(The Matrix, has_genre, Science Fiction, 1.0)
+(The Matrix, released_in, 1999, 1.0)
+(The Matrix, directed_by, Wachowskis, 1.0)
+(The Matrix, stars, Keanu Reeves, 1.0)
+(The Matrix, stars, Laurence Fishburne, 1.0)
+(Keanu Reeves, plays_character, Neo, 1.0)
+(Laurence Fishburne, plays_character, Morpheus, 1.0)
+
+Now extract knowledge triples from this text, following the strict 
+format:
+{text}
+
+Triples:
+
+
+### Chain of Thought Prompt
+
+You are a knowledge graph extraction expert. Think step by step to 
+extract entities and their relationships from the following text.
+
+Step 1: Entity Identification
+- List all entities mentioned in the text
+- Identify entity types (Movie, Person, Genre, Year, Tag)
+- Resolve entity references and pronouns
+- Track entity consistency
+
+Step 2: Entity Classification
+- Categorize each entity by type
+- Verify entity existence
+- Check entity relationships
+- Score entity confidence
+
+Step 3: Relationship Analysis
+- Identify potential relationships
+- Verify relationship validity
+- Check temporal consistency
+- Score relationship confidence
+
+Step 4: Triple Formation
+- Create (subject, predicate, object) triples
+- Use only allowed relation types:
+  * is_a: For categorization
+  * has_genre: For movie genres
+  * released_in: For release years
+  * directed_by: For directors
+  * stars: For main actors
+  * plays_character: For character roles
+  * has_tag: For user tags
+  * is_sequel_to: For movie sequels
+  * is_remake_of: For movie remakes
+  * is_adaptation_of: For book adaptations
+  * has_plot: For plot descriptions
+
+Step 5: Validation
+- Check triple consistency
+- Verify entity existence
+- Validate relationships
+- Score triple confidence
+
+Step 6: Output
+- Format triples as (subject, predicate, object, confidence)
+- Include only validated triples
+- Maintain entity consistency
+- Follow relationship rules
+
+Text: {text}
+
+Step-by-step extraction:
+
+### Schema-Guided Prompt
+
+You are a knowledge graph extraction expert. Use the following schema 
+to extract triples from the text.
+
+Entity Type Definitions:
+1. Movie:
+   - Properties: title, year, genre
+   - Constraints: unique title+year
+   - Relationships: has_genre, released_in, directed_by, stars
+
+2. Person:
+   - Properties: name, role
+   - Constraints: unique name
+   - Relationships: directed_by, stars, plays_character
+
+3. Genre:
+   - Properties: name, type
+   - Constraints: unique name
+   - Relationships: is_a, has_genre
+
+4. Year:
+   - Properties: value
+   - Constraints: YYYY format
+   - Relationships: released_in
+
+5. Tag:
+   - Properties: name
+   - Constraints: unique name
+   - Relationships: has_tag
+
+Relationship Type Definitions:
+1. Categorization:
+   - is_a: (Entity → Type) [1:1]
+   - has_genre: (Movie → Genre) [1:N]
+
+2. Temporal:
+   - released_in: (Movie → Year) [1:1]
+   - is_sequel_to: (Movie → Movie) [1:1]
+
+3. Creative:
+   - directed_by: (Movie → Person) [1:N]
+   - stars: (Movie → Person) [1:N]
+   - plays_character: (Person → Character) [1:N]
+
+4. Descriptive:
+   - has_tag: (Movie → Tag) [1:N]
+   - has_plot: (Movie → Plot) [1:N]
+
+Validation Rules:
+1. Entity Validation:
+   - Check required properties
+   - Verify constraints
+   - Validate relationships
+   - Score confidence
+
+2. Relationship Validation:
+   - Check cardinality
+   - Verify types
+   - Validate constraints
+   - Score confidence
+
+Output Format:
+{
+    "subject": "entity name",
+    "subject_type": "entity type",
+    "predicate": "relationship type",
+    "object": "entity name",
+    "object_type": "entity type",
+    "confidence": 0.0-1.0
+}
+
+Text: {text}
+
+Triples:
+
