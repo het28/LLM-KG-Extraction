@@ -49,9 +49,11 @@ Now extract knowledge triples from this text:
 {text}
 
 Triples:
+```
 
-###Complex Prompt
+### Complex Prompt
 
+```text
 You are a knowledge graph extraction expert. Extract structured 
 knowledge from the given text about movies and related entities.
 
@@ -121,9 +123,11 @@ Now extract knowledge triples from this text:
 {text}
 
 Triples:
+```
 
-###Conversation-Aware Prompt
+### Conversation-Aware Prompt
 
+```text
 You are a knowledge graph extraction expert analyzing movie 
 descriptions. Extract knowledge triples while maintaining context 
 across multiple sentences.
@@ -202,9 +206,11 @@ across sentences:
 {text}
 
 Triples:
+```
 
 ### Structured Prompt
 
+```text
 You are a knowledge graph extraction expert. Extract structured 
 knowledge triples following a strict format and relationship types.
 
@@ -288,10 +294,11 @@ format:
 {text}
 
 Triples:
-
+```
 
 ### Chain of Thought Prompt
 
+```text
 You are a knowledge graph extraction expert. Think step by step to 
 extract entities and their relationships from the following text.
 
@@ -343,9 +350,11 @@ Step 6: Output
 Text: {text}
 
 Step-by-step extraction:
+```
 
 ### Schema-Guided Prompt
 
+```text
 You are a knowledge graph extraction expert. Use the following schema 
 to extract triples from the text.
 
@@ -419,4 +428,4 @@ Output Format:
 Text: {text}
 
 Triples:
-
+```
